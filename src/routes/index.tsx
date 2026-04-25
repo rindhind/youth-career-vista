@@ -80,13 +80,13 @@ function YouthView() {
       }
       let parsed: any;
       try {
-        parsed = JSON.parse(text);
+        parsed = extractJSON(text);
       } catch (e) {
         throw new Error(`Invalid JSON from webhook: ${text.slice(0, 300)}`);
       }
       const tryParse = (v: any) => {
         if (typeof v === "string") {
-          try { return JSON.parse(v); } catch { return v; }
+          try { return extractJSON(v); } catch { return v; }
         }
         return v;
       };

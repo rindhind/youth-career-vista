@@ -84,6 +84,13 @@ function PolicymakerPage() {
           </div>
         ))}
       </section>
+
+      <section>
+        <h3 className="text-xl font-semibold mb-3">Data</h3>
+        <div className="rounded-xl border border-border bg-card p-6 shadow-[var(--shadow-card)] text-sm text-muted-foreground leading-relaxed">
+          Automation risk scores calibrated using Frey-Osborne (2013) occupation probability dataset (702 occupations). Youth unemployment figures from ILO ILOSTAT 2023. Digital access data from World Bank WDI.
+        </div>
+      </section>
     </div>
   );
 }

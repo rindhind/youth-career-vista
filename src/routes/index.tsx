@@ -247,6 +247,24 @@ function YouthView() {
               {result.loading ? <Spinner /> : result.opportunities ? <OpportunitiesCard data={result.opportunities} /> : <Empty />}
             </ResultCard>
           </div>
+          {!result.loading &&
+            !result.error &&
+            result.skills_profile &&
+            result.automation_risk &&
+            result.opportunities &&
+            cfg && (
+              <div className="mt-10">
+                <h2 className="text-xl sm:text-2xl font-bold mb-4">Your Skills Passport</h2>
+                <SkillsPassport
+                  name={name}
+                  country={cfg.name}
+                  flag={cfg.flag}
+                  skills={result.skills_profile}
+                  risk={result.automation_risk}
+                  opportunities={result.opportunities}
+                />
+              </div>
+            )}
         </section>
       )}
     </div>

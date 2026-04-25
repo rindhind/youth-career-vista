@@ -98,6 +98,16 @@ function YouthView() {
       if (!response.ok) {
         throw new Error(`HTTP ${response.status}: ${text.slice(0, 300)}`);
       }
+      // Make.com returns "Accepted" (plain text) when the webhook responds before the scenario finishes.
+      // The scenario must end with a "Webhook response" module that returns the combined JSON.
+      const trimmed = text.trim();
+      if (trimmed === "Accepted" || trimmed === "") {
+        throw new Error(
+          `Make.com returned "${trimmed || "empty"}" instead of JSON. ` +
+          `Fix: in your Make scenario, add a "Webhook response" module at the END that returns ` +
+          `{"skills_profile": {...}, "automation_risk": {...}, "opportunities": {...}} with Content-Type: application/json.`
+        );
+      }
       let parsed: any;
       try {
         parsed = extractJSON(text);

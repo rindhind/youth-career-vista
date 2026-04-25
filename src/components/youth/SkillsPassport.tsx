@@ -22,15 +22,55 @@ export function SkillsPassport({ name, country, flag, skills, risk, opportunitie
   const handleSave = async () => {
     if (!cardRef.current) return;
     const html2canvas = (await import("html2canvas")).default;
-    const canvas = await html2canvas(cardRef.current, {
-      backgroundColor: null,
-      scale: 2,
-      useCORS: true,
+
+    // html2canvas can't parse oklch()/color() — override computed colors
+    // on the card subtree with safe RGB equivalents before capture.
+    const root = cardRef.current;
+    const all = [root, ...Array.from(root.querySelectorAll<HTMLElement>("*"))];
+    const originals: { el: HTMLElement; color: string; bg: string; border: string }[] = [];
+
+    const toSafe = (val: string, fallback: string) => {
+      if (!val) return fallback;
+      if (/oklch|oklab|color\(/i.test(val)) return fallback;
+      return val;
+    };
+
+    all.forEach((el) => {
+      const cs = getComputedStyle(el);
+      originals.push({
+        el,
+        color: el.style.color,
+        bg: el.style.backgroundColor,
+        border: el.style.borderColor,
+      });
+      el.style.color = toSafe(cs.color, "#ffffff");
+      const bg = cs.backgroundColor;
+      if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent") {
+        el.style.backgroundColor = toSafe(bg, "rgba(255,255,255,0.12)");
+      }
+      const bc = cs.borderColor;
+      if (bc) el.style.borderColor = toSafe(bc, "rgba(255,255,255,0.2)");
     });
-    const link = document.createElement("a");
-    link.download = `unmapped-passport-${name.replace(/\s+/g, "-").toLowerCase() || "card"}.png`;
-    link.href = canvas.toDataURL("image/png");
-    link.click();
+
+    try {
+      const canvas = await html2canvas(root, {
+        backgroundColor: "#2a0e54",
+        scale: 2,
+        useCORS: true,
+        logging: false,
+      });
+      const link = document.createElement("a");
+      link.download = `unmapped-passport-${name.replace(/\s+/g, "-").toLowerCase() || "card"}.png`;
+      link.href = canvas.toDataURL("image/png");
+      link.click();
+    } finally {
+      // Restore original inline styles
+      originals.forEach(({ el, color, bg, border }) => {
+        el.style.color = color;
+        el.style.backgroundColor = bg;
+        el.style.borderColor = border;
+      });
+    }
   };
 
   return (

@@ -1,5 +1,3 @@
-import { useRef } from "react";
-
 interface PassportProps {
   name: string;
   country: string;
@@ -10,8 +8,6 @@ interface PassportProps {
 }
 
 export function SkillsPassport({ name, country, flag, skills, risk, opportunities }: PassportProps) {
-  const cardRef = useRef<HTMLDivElement>(null);
-
   const topOpp = Array.isArray(opportunities?.opportunities) && opportunities.opportunities.length > 0
     ? [...opportunities.opportunities].sort((a, b) => (b.match_score ?? 0) - (a.match_score ?? 0))[0]
     : null;
@@ -19,105 +15,9 @@ export function SkillsPassport({ name, country, flag, skills, risk, opportunitie
   const riskLevel = String(risk?.automation_risk ?? "—").toUpperCase();
   const riskPct = typeof risk?.risk_score === "number" ? Math.round(risk.risk_score * 100) : null;
 
-  const handleSave = async () => {
-    if (!cardRef.current) return;
-    const html2canvas = (await import("html2canvas")).default;
-
-    // html2canvas can't parse modern color functions from Tailwind/theme CSS.
-    // Freeze the card subtree to safe inline CSS before capture.
-    const root = cardRef.current;
-    const all = [root, ...Array.from(root.querySelectorAll<HTMLElement>("*"))];
-    const originals: {
-      el: HTMLElement;
-      color: string;
-      bg: string;
-      borderTop: string;
-      borderRight: string;
-      borderBottom: string;
-      borderLeft: string;
-      outline: string;
-      textDecoration: string;
-      boxShadow: string;
-      textShadow: string;
-      backgroundImage: string;
-    }[] = [];
-
-    const toSafe = (val: string, fallback: string) => {
-      if (!val) return fallback;
-      if (/oklch|oklab|\blch\(|\blab\(|color\(/i.test(val)) return fallback;
-      return val;
-    };
-
-    all.forEach((el) => {
-      const cs = getComputedStyle(el);
-      originals.push({
-        el,
-        color: el.style.color,
-        bg: el.style.backgroundColor,
-        borderTop: el.style.borderTopColor,
-        borderRight: el.style.borderRightColor,
-        borderBottom: el.style.borderBottomColor,
-        borderLeft: el.style.borderLeftColor,
-        outline: el.style.outlineColor,
-        textDecoration: el.style.textDecorationColor,
-        boxShadow: el.style.boxShadow,
-        textShadow: el.style.textShadow,
-        backgroundImage: el.style.backgroundImage,
-      });
-      el.style.color = toSafe(cs.color, "#ffffff");
-      const bg = cs.backgroundColor;
-      if (bg && bg !== "rgba(0, 0, 0, 0)" && bg !== "transparent") {
-        el.style.backgroundColor = toSafe(bg, "rgba(255,255,255,0.12)");
-      }
-      el.style.borderTopColor = toSafe(cs.borderTopColor, "rgba(255,255,255,0.2)");
-      el.style.borderRightColor = toSafe(cs.borderRightColor, "rgba(255,255,255,0.2)");
-      el.style.borderBottomColor = toSafe(cs.borderBottomColor, "rgba(255,255,255,0.2)");
-      el.style.borderLeftColor = toSafe(cs.borderLeftColor, "rgba(255,255,255,0.2)");
-      el.style.outlineColor = toSafe(cs.outlineColor, "rgba(255,255,255,0.2)");
-      el.style.textDecorationColor = toSafe(cs.textDecorationColor, "rgba(255,255,255,0.7)");
-      el.style.boxShadow = toSafe(cs.boxShadow, "none");
-      el.style.textShadow = toSafe(cs.textShadow, "none");
-      el.style.backgroundImage = toSafe(cs.backgroundImage, el.style.backgroundImage || "none");
-    });
-
-    try {
-      const canvas = await html2canvas(root, {
-        backgroundColor: "#2a0e54",
-        scale: 2,
-        useCORS: true,
-        logging: false,
-      });
-      const link = document.createElement("a");
-      link.download = `unmapped-passport-${name.replace(/\s+/g, "-").toLowerCase() || "card"}.png`;
-      link.href = canvas.toDataURL("image/png");
-      document.body.appendChild(link);
-      link.click();
-      link.remove();
-    } catch (error) {
-      console.error("Error saving Skills Passport image:", error);
-      window.alert("Sorry, the Skills Passport image could not be saved. Please try again.");
-    } finally {
-      // Restore original inline styles
-      originals.forEach(({ el, color, bg, borderTop, borderRight, borderBottom, borderLeft, outline, textDecoration, boxShadow, textShadow, backgroundImage }) => {
-        el.style.color = color;
-        el.style.backgroundColor = bg;
-        el.style.borderTopColor = borderTop;
-        el.style.borderRightColor = borderRight;
-        el.style.borderBottomColor = borderBottom;
-        el.style.borderLeftColor = borderLeft;
-        el.style.outlineColor = outline;
-        el.style.textDecorationColor = textDecoration;
-        el.style.boxShadow = boxShadow;
-        el.style.textShadow = textShadow;
-        el.style.backgroundImage = backgroundImage;
-      });
-    }
-  };
-
   return (
     <div className="space-y-4 animate-fade-in">
       <div
-        ref={cardRef}
         className="relative overflow-hidden rounded-2xl p-6 sm:p-8 text-white shadow-2xl"
         style={{
           background: "linear-gradient(135deg, #2a0e54 0%, #4c1d95 50%, #1e1b4b 100%)",
@@ -202,14 +102,6 @@ export function SkillsPassport({ name, country, flag, skills, risk, opportunitie
           </div>
         </div>
       </div>
-
-      <button
-        type="button"
-        onClick={handleSave}
-        className="w-full sm:w-auto px-6 py-2.5 rounded-lg font-semibold text-primary-foreground bg-gradient-to-r from-primary to-primary-glow shadow-[var(--shadow-glow)] hover:opacity-95 transition"
-      >
-        Save as Image
-      </button>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import { COUNTRIES, type CountryKey } from "@/lib/countries";
 import { SkillsCard } from "@/components/youth/SkillsCard";
 import { RiskCard } from "@/components/youth/RiskCard";
 import { OpportunitiesCard } from "@/components/youth/OpportunitiesCard";
+import { SkillsPassport } from "@/components/youth/SkillsPassport";
 
 export const Route = createFileRoute("/")({
   head: () => ({
@@ -55,6 +56,7 @@ function extractJSON(raw: string): any {
 
 function YouthView() {
   const [country, setCountry] = useState<CountryKey | null>(null);
+  const [name, setName] = useState("");
   const [education, setEducation] = useState("");
   const [skills, setSkills] = useState("");
   const [years, setYears] = useState<number | "">("");
@@ -64,8 +66,8 @@ function YouthView() {
   const cfg = country ? COUNTRIES[country] : null;
 
   const canSubmit = useMemo(
-    () => Boolean(cfg && education && skills.trim() && years !== "" && !result.loading),
-    [cfg, education, skills, years, result.loading]
+    () => Boolean(cfg && name.trim() && education && skills.trim() && years !== "" && !result.loading),
+    [cfg, name, education, skills, years, result.loading]
   );
 
   const handleSelectCountry = (k: CountryKey) => {
@@ -165,6 +167,16 @@ function YouthView() {
         <section className="animate-fade-in">
           <h2 className="text-xl sm:text-2xl font-bold mb-4">2. Tell us about you</h2>
           <div className="rounded-2xl border border-border bg-card p-6 space-y-4 shadow-[var(--shadow-card)]">
+            <div>
+              <label className="block text-sm font-medium mb-1.5">Name</label>
+              <input
+                type="text"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
+                placeholder="e.g. Amina Khan"
+                className="w-full rounded-lg bg-background border border-border px-3 py-2.5 text-sm focus:border-primary focus:ring-2 focus:ring-primary/30 outline-none"
+              />
+            </div>
             <div>
               <label className="block text-sm font-medium mb-1.5">Education level</label>
               <select

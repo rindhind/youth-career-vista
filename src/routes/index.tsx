@@ -35,6 +35,24 @@ const initialResult: ResultState = {
   opportunities: null,
 };
 
+function extractJSON(raw: string): any {
+  let cleaned = String(raw)
+    .replace(/^\uFEFF/, "")
+    .replace(/```json\s*/gi, "")
+    .replace(/```/g, "")
+    .trim();
+  if (!cleaned.startsWith("{") && !cleaned.startsWith("[")) {
+    const objStart = cleaned.indexOf("{");
+    const arrStart = cleaned.indexOf("[");
+    const isArray = arrStart !== -1 && (objStart === -1 || arrStart < objStart);
+    const start = isArray ? arrStart : objStart;
+    const end = isArray ? cleaned.lastIndexOf("]") : cleaned.lastIndexOf("}");
+    if (start === -1 || end <= start) throw new Error("No JSON found");
+    cleaned = cleaned.slice(start, end + 1);
+  }
+  return JSON.parse(cleaned);
+}
+
 function YouthView() {
   const [country, setCountry] = useState<CountryKey | null>(null);
   const [education, setEducation] = useState("");

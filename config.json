@@ -1,0 +1,44 @@
+{
+  "pakistan": {
+    "country": "Pakistan",
+    "language": "en",
+    "currency": "PKR",
+    "context": "South Asia, mixed urban-rural economy",
+    "top_sectors": ["Agriculture", "Textile", "IT Services", "Construction", "Trade"],
+    "education_levels": [
+      "No formal education",
+      "Primary (Grade 1-5)",
+      "Middle (Grade 6-8)",
+      "Matric (Grade 9-10)",
+      "Intermediate (Grade 11-12)",
+      "Bachelor's degree",
+      "Master's degree"
+    ],
+    "informal_skills_examples": ["Mobile repair", "Tailoring", "Driving", "Cooking", "Basic coding", "Sales"],
+    "automation_calibration": "moderate — high manual labor share, growing digital sector",
+    "ilo_country_code": "PAK",
+    "avg_youth_unemployment_pct": 11.4,
+    "digital_access_pct": 36
+  },
+  "ghana": {
+    "country": "Ghana",
+    "language": "en",
+    "currency": "GHS",
+    "context": "Sub-Saharan Africa, urban informal economy",
+    "top_sectors": ["Agriculture", "Mining", "Services", "Construction", "Retail"],
+    "education_levels": [
+      "No formal education",
+      "Primary",
+      "Junior High School (JHS)",
+      "Senior High School (SHS)",
+      "TVET Certificate",
+      "HND / Diploma",
+      "Bachelor's degree"
+    ],
+    "informal_skills_examples": ["Phone repair", "Hairdressing", "Welding", "Farming", "Trading", "Carpentry"],
+    "automation_calibration": "low-moderate — high informality, limited automation penetration",
+    "ilo_country_code": "GHA",
+    "avg_youth_unemployment_pct": 12.1,
+    "digital_access_pct": 53
+  }
+}

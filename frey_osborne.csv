@@ -1,0 +1,21 @@
+occupation,soc_code,automation_probability
+Electronics Mechanic,49-2094,0.32
+Mobile Equipment Servicer,49-3093,0.54
+Computer Support Specialist,15-1151,0.65
+Software Developer,15-1132,0.04
+Tailor/Sewer,51-6052,0.79
+Driver/Truck Operator,53-3032,0.69
+Agricultural Worker,45-2091,0.87
+Cashier,41-2011,0.97
+Data Entry Keyer,43-9021,0.99
+Retail Salesperson,41-2031,0.92
+Cook/Food Preparer,35-2021,0.65
+Carpenter,47-2031,0.39
+Welder,51-4121,0.67
+Customer Service Rep,43-4051,0.55
+Receptionist,43-4171,0.96
+Hairdresser/Cosmetologist,39-5012,0.33
+Construction Laborer,47-2061,0.88
+Teacher (Primary),25-2021,0.04
+Accountant,13-2011,0.94
+Nurse,29-1141,0.009

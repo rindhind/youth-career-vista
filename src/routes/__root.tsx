@@ -33,10 +33,14 @@ export const Route = createRootRoute({
       { title: "UNMAPPED — Skills × Automation × Opportunity for LMIC youth" },
       { name: "description", content: "Map skills, automation risk, and real opportunities for youth in low- and middle-income countries." },
       { property: "og:title", content: "UNMAPPED — Skills × Automation × Opportunity for LMIC youth" },
-      { property: "og:description", content: "Map skills, automation risk, and real opportunities for youth in LMICs." },
+      { property: "og:description", content: "Map skills, automation risk, and real opportunities for youth in low- and middle-income countries." },
       { property: "og:type", content: "website" },
       { name: "twitter:card", content: "summary" },
       { name: "twitter:site", content: "@Lovable" },
+      { name: "twitter:title", content: "UNMAPPED — Skills × Automation × Opportunity for LMIC youth" },
+      { name: "twitter:description", content: "Map skills, automation risk, and real opportunities for youth in low- and middle-income countries." },
+      { property: "og:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/4062f9a2-28a0-4e9c-bb9e-f7a1bce8a139" },
+      { name: "twitter:image", content: "https://storage.googleapis.com/gpt-engineer-file-uploads/attachments/og-images/4062f9a2-28a0-4e9c-bb9e-f7a1bce8a139" },
     ],
     links: [
       {
